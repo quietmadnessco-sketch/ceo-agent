@@ -1036,7 +1036,14 @@
                 statusEl.style.color = 'var(--success)';
                 updateTaskStatus(dept, 'Task completed successfully', 'completed');
                 
-                showDownloadReport(dept, currentTask);
+                // Store task globally BEFORE showing download
+                window.lastCompletedTask = {
+                    department: dept,
+                    businesses: currentTask.businesses,
+                    proposal: currentTask.proposal
+                };
+                
+                showDownloadReport(dept);
                 
                 setTimeout(() => {
                     statusEl.textContent = 'Ready';
@@ -1047,12 +1054,13 @@
             currentTask = null;
         }
 
-        function showDownloadReport(dept, task) {
+        function showDownloadReport(dept) {
+            
             const notification = document.getElementById('notification');
             notification.innerHTML = `
                 <div style="display: flex; align-items: center; gap: 1rem; justify-content: space-between;">
                     <span>Report completed!</span>
-                    <button onclick='downloadReport(${JSON.stringify(dept)}, ${JSON.stringify(task)})' 
+                    <button onclick="downloadReport()" 
                             style="background: var(--accent); color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-weight: 600; white-space: nowrap;">
                         Download PDF
                     </button>
@@ -1065,7 +1073,15 @@
             }, 10000);
         }
 
-        function downloadReport(dept, task) {
+        function downloadReport() {
+            if (!window.lastCompletedTask) {
+                showNotification('No report available');
+                return;
+            }
+            
+            const task = window.lastCompletedTask;
+            const dept = task.department;
+            
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             
