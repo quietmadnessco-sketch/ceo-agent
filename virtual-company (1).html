@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Company - AI Business Automation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0f172a;
+            --secondary: #1e293b;
+            --tertiary: #334155;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --text: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --card-bg: #1e293b;
+            --border: rgba(148, 163, 184, 0.1);
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: var(--text);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            font-weight: 400;
+        }
+
+        .ceo-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .ceo-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .ceo-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--accent);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .ceo-title {
+            flex: 1;
+        }
+
+        .ceo-title h2 {
+            font-family: 'Outfit', sans-serif;
+            color: var(--text);
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+            font-weight: 600;
+        }
+
+        .ceo-title p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .business-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .business-card {
+            background: var(--tertiary);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .business-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+        }
+
+        .business-card.active {
+            border-color: var(--accent);
+            background: var(--secondary);
+        }
+
+        .business-card h3 {
+            color: var(--text);
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .business-card input {
+            width: 100%;
+            background: var(--primary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.75rem;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 0.95rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .business-card textarea {
+            width: 100%;
+            background: var(--primary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.75rem;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 0.9rem;
+            resize: vertical;
+            margin-bottom: 0.75rem;
+            line-height: 1.5;
+        }
+
+        .business-card input:focus,
+        .business-card textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .knowledge-section {
+            background: var(--tertiary);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .knowledge-section h3 {
+            color: var(--text);
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .learning-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .learning-card {
+            background: var(--secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .learning-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent);
+        }
+
+        .learning-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .learning-card h4 {
+            color: var(--text);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .learning-card p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        .departments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .department-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .department-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--dept-color);
+        }
+
+        .department-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            border-color: var(--dept-color);
+        }
+
+        .department-card.hr { --dept-color: #8b5cf6; }
+        .department-card.sales { --dept-color: #3b82f6; }
+        .department-card.marketing { --dept-color: #10b981; }
+        .department-card.finance { --dept-color: #f59e0b; }
+        .department-card.developer { --dept-color: #ec4899; }
+
+        .dept-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .dept-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .dept-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--tertiary);
+            border: 2px solid var(--dept-color);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .dept-name h3 {
+            font-size: 1.2rem;
+            color: var(--text);
+            margin-bottom: 0.25rem;
+            font-weight: 600;
+        }
+
+        .expert-badge {
+            font-size: 0.75rem;
+            color: var(--dept-color);
+            font-weight: 500;
+            margin-top: 0.25rem;
+            opacity: 0.9;
+        }
+
+        .dept-status {
+            font-size: 0.8rem;
+            padding: 0.3rem 0.75rem;
+            border-radius: 4px;
+            background: var(--tertiary);
+            color: var(--text-secondary);
+            font-family: 'Outfit', sans-serif;
+            font-weight: 500;
+        }
+
+        .dept-status.active {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+        }
+
+        .dept-description {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .dept-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            flex: 1;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--tertiary);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--secondary);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .task-queue {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .task-item {
+            background: var(--tertiary);
+            border-left: 3px solid var(--dept-color);
+            border-radius: 6px;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .task-item .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .task-status {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            background: var(--tertiary);
+            font-weight: 500;
+        }
+
+        .task-status.pending { color: var(--warning); background: rgba(245, 158, 11, 0.15); }
+        .task-status.approved { color: var(--success); background: rgba(16, 185, 129, 0.15); }
+        .task-status.working { color: var(--accent); background: rgba(59, 130, 246, 0.15); }
+        .task-status.completed { color: var(--success); background: rgba(16, 185, 129, 0.15); }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2.5rem;
+            max-width: 600px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modal-header h2 {
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.8rem;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal:hover {
+            background: var(--tertiary);
+            color: var(--text);
+        }
+
+        .proposal-content {
+            background: var(--tertiary);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .proposal-content h3 {
+            color: var(--text);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .proposal-content p {
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .proposal-content ul {
+            list-style: none;
+            margin-left: 1rem;
+        }
+
+        .proposal-content li {
+            padding: 0.5rem 0;
+            border-left: 2px solid var(--accent);
+            padding-left: 1rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .approval-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--border);
+            border-radius: 50%;
+            border-top-color: var(--accent);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .notification {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            z-index: 2000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .departments-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .business-selector {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Virtual Company System</h1>
+            <p>AI-Powered Business Automation Platform</p>
+        </div>
+
+        <!-- CEO Agent Section -->
+        <div class="ceo-section">
+            <div class="ceo-header">
+                <div class="ceo-icon">👔</div>
+                <div class="ceo-title">
+                    <h2>CEO Agent</h2>
+                    <p>Central Command & Task Orchestrator</p>
+                </div>
+            </div>
+
+            <div class="business-selector">
+                <div class="business-card active" data-business="1">
+                    <h3>Business 1</h3>
+                    <input type="text" placeholder="Business name..." id="business1" value="Mukflow">
+                    <textarea placeholder="What does this business do? Who are your customers? What problems do you solve?" id="business1-desc" rows="3"></textarea>
+                    <input type="text" placeholder="Website URL (optional)" id="business1-url">
+                </div>
+                <div class="business-card" data-business="2">
+                    <h3>Business 2</h3>
+                    <input type="text" placeholder="Business name..." id="business2" value="Ritik & Co">
+                    <textarea placeholder="What does this business do? Who are your customers? What problems do you solve?" id="business2-desc" rows="3">Professional web development and digital solutions agency. We create stunning websites, web applications, and digital experiences for businesses looking to establish or enhance their online presence.</textarea>
+                    <input type="text" placeholder="Website URL (optional)" id="business2-url" value="https://ritikandco.netlify.app/">
+                </div>
+                <div class="business-card" data-business="3">
+                    <h3>Business 3</h3>
+                    <input type="text" placeholder="Business name..." id="business3" value="QuietMadness">
+                    <textarea placeholder="What does this business do? Who are your customers? What problems do you solve?" id="business3-desc" rows="3"></textarea>
+                    <input type="text" placeholder="Website URL (optional)" id="business3-url">
+                </div>
+            </div>
+
+            <div class="knowledge-section">
+                <h3>How Your Experts Will Learn About Your Business:</h3>
+                <div class="learning-methods">
+                    <div class="learning-card">
+                        <div class="learning-icon">🔍</div>
+                        <h4>Website Analysis</h4>
+                        <p>AI scrapes your website, analyzes content, products, messaging, and customer journey</p>
+                    </div>
+                    <div class="learning-card">
+                        <div class="learning-icon">📊</div>
+                        <h4>Analytics Integration</h4>
+                        <p>Connects to Google Analytics, social media insights, and traffic data</p>
+                    </div>
+                    <div class="learning-card">
+                        <div class="learning-icon">🎯</div>
+                        <h4>Competitor Research</h4>
+                        <p>Studies your competitors, market position, and industry trends</p>
+                    </div>
+                    <div class="learning-card">
+                        <div class="learning-icon">💬</div>
+                        <h4>You Tell Them</h4>
+                        <p>Describe your business above, upload documents, or chat with each department</p>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" onclick="initializeSystem()" style="width: 100%;">
+                Initialize All Departments
+            </button>
+        </div>
+
+        <!-- Departments Grid -->
+        <div class="departments-grid">
+            <!-- HR Department -->
+            <div class="department-card hr">
+                <div class="dept-header">
+                    <div class="dept-info">
+                        <div class="dept-icon">👥</div>
+                        <div class="dept-name">
+                            <h3>HR Department</h3>
+                            <div class="expert-badge">42 Years Experience • $8B in Optimizations</div>
+                        </div>
+                    </div>
+                    <span class="dept-status" id="hr-status">Idle</span>
+                </div>
+                <p class="dept-description">
+                    Led by Sarah Chen, former CHRO of 3 unicorn startups. Specialized in building high-performance teams and operational excellence. Continuously learns from Harvard Business Review, McKinsey reports, and real-time workforce analytics.
+                </p>
+                <div class="dept-actions">
+                    <button class="btn btn-primary" onclick="runDepartment('hr')">Generate Report</button>
+                </div>
+                <div class="task-queue" id="hr-tasks"></div>
+            </div>
+
+            <!-- Sales Department -->
+            <div class="department-card sales">
+                <div class="dept-header">
+                    <div class="dept-info">
+                        <div class="dept-icon">📊</div>
+                        <div class="dept-name">
+                            <h3>Sales</h3>
+                            <div class="expert-badge">45 Years Experience • $12B Revenue Generated</div>
+                        </div>
+                    </div>
+                    <span class="dept-status" id="sales-status">Idle</span>
+                </div>
+                <p class="dept-description">
+                    Led by Marcus Rodriguez, built 5 companies from $0 to $1B+ ARR. Expert in B2B/B2C sales. Studies every LinkedIn Sales Navigator update, challenger sale methodologies, and conversion optimization research daily.
+                </p>
+                <div class="dept-actions">
+                    <button class="btn btn-primary" onclick="runDepartment('sales')">Generate Leads</button>
+                </div>
+                <div class="task-queue" id="sales-tasks"></div>
+            </div>
+
+            <!-- Marketing Department -->
+            <div class="department-card marketing">
+                <div class="dept-header">
+                    <div class="dept-info">
+                        <div class="dept-icon">📱</div>
+                        <div class="dept-name">
+                            <h3>Marketing</h3>
+                            <div class="expert-badge">48 Years Experience • $15B Brand Value Created</div>
+                        </div>
+                    </div>
+                    <span class="dept-status" id="marketing-status">Idle</span>
+                </div>
+                <p class="dept-description">
+                    Led by Emily Zhang, former CMO of Airbnb & Uber. Built viral growth engines. Daily studies: Google algorithm updates, TikTok trends, SEO research from Moz/Ahrefs, and consumer psychology studies.
+                </p>
+                <div class="dept-actions">
+                    <button class="btn btn-primary" onclick="runDepartment('marketing')">Analyze & Suggest</button>
+                </div>
+                <div class="task-queue" id="marketing-tasks"></div>
+            </div>
+
+            <!-- Finance Department -->
+            <div class="department-card finance">
+                <div class="dept-header">
+                    <div class="dept-info">
+                        <div class="dept-icon">💰</div>
+                        <div class="dept-name">
+                            <h3>Finance</h3>
+                            <div class="expert-badge">50 Years Experience • $20B Managed</div>
+                        </div>
+                    </div>
+                    <span class="dept-status" id="finance-status">Idle</span>
+                </div>
+                <p class="dept-description">
+                    Led by David Kumar, ex-CFO of Stripe & Square. IPO expert. Continuously monitors: SEC filings, Warren Buffett strategies, VC funding trends, macroeconomic indicators, and latest fintech innovations.
+                </p>
+                <div class="dept-actions">
+                    <button class="btn btn-primary" onclick="runDepartment('finance')">Financial Analysis</button>
+                </div>
+                <div class="task-queue" id="finance-tasks"></div>
+            </div>
+
+            <!-- Developer Department -->
+            <div class="department-card developer">
+                <div class="dept-header">
+                    <div class="dept-info">
+                        <div class="dept-icon">💻</div>
+                        <div class="dept-name">
+                            <h3>Developer</h3>
+                            <div class="expert-badge">43 Years Experience • $10B Tech Stack Built</div>
+                        </div>
+                    </div>
+                    <span class="dept-status" id="developer-status">Idle</span>
+                </div>
+                <p class="dept-description">
+                    Led by Alex Thompson, founding engineer at GitHub & Shopify. Built systems serving 100M+ users. Daily learning: Stack Overflow trends, GitHub repos, AI/ML papers, cloud architecture patterns, and automation frameworks.
+                </p>
+                <div class="dept-actions">
+                    <button class="btn btn-primary" onclick="runDepartment('developer')">Build Solution</button>
+                </div>
+                <div class="task-queue" id="developer-tasks"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Approval Modal -->
+    <div class="modal" id="approvalModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>CEO Approval Required</h2>
+                <button class="close-modal" onclick="closeModal()">×</button>
+            </div>
+            <div class="proposal-content" id="proposalContent">
+                <!-- Dynamic content will be inserted here -->
+            </div>
+            <div class="approval-actions">
+                <button class="btn btn-primary" onclick="approveTask()" style="flex: 1;">
+                    Approve & Execute
+                </button>
+                <button class="btn btn-secondary" onclick="closeModal()">
+                    Reject
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <script>
+        let currentTask = null;
+        let systemInitialized = false;
+
+        // Business card selection
+        document.querySelectorAll('.business-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                if (e.target.tagName !== 'INPUT') {
+                    document.querySelectorAll('.business-card').forEach(c => c.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        function initializeSystem() {
+            const business1 = document.getElementById('business1').value;
+            const business2 = document.getElementById('business2').value;
+            const business3 = document.getElementById('business3').value;
+
+            const business1Desc = document.getElementById('business1-desc').value;
+            const business2Desc = document.getElementById('business2-desc').value;
+            const business3Desc = document.getElementById('business3-desc').value;
+
+            const business1Url = document.getElementById('business1-url').value;
+            const business2Url = document.getElementById('business2-url').value;
+            const business3Url = document.getElementById('business3-url').value;
+
+            if (!business1 && !business2 && !business3) {
+                showNotification('Please enter at least one business name', 'warning');
+                return;
+            }
+
+            // Store business information globally
+            window.businessData = {
+                businesses: [
+                    { name: business1, description: business1Desc, url: business1Url },
+                    { name: business2, description: business2Desc, url: business2Url },
+                    { name: business3, description: business3Desc, url: business3Url }
+                ].filter(b => b.name)
+            };
+
+            systemInitialized = true;
+            showNotification('System initialized! Experts are analyzing your businesses...', 'success');
+            
+            // Update all status indicators
+            ['hr', 'sales', 'marketing', 'finance', 'developer'].forEach(dept => {
+                const status = document.getElementById(`${dept}-status`);
+                status.textContent = 'Ready';
+                status.classList.add('active');
+            });
+
+            // Simulate learning process
+            setTimeout(() => {
+                showNotification('Website analysis complete! All departments have learned about your businesses.', 'success');
+            }, 3000);
+        }
+
+        async function runDepartment(dept) {
+            if (!systemInitialized) {
+                showNotification('Please initialize the system first', 'warning');
+                return;
+            }
+
+            if (!window.businessData || window.businessData.businesses.length === 0) {
+                showNotification('Please enter business information first', 'warning');
+                return;
+            }
+
+            const businesses = window.businessData.businesses;
+
+            // Update status
+            const statusEl = document.getElementById(`${dept}-status`);
+            statusEl.textContent = 'Analyzing...';
+            statusEl.style.color = 'var(--warning)';
+
+            // Add task to queue
+            addTaskToQueue(dept, 'AI analyzing your business data...', 'pending');
+
+            // Simulate department work (replace with actual API call)
+            setTimeout(() => {
+                currentTask = {
+                    department: dept,
+                    businesses: businesses,
+                    proposal: generateProposal(dept, businesses)
+                };
+
+                showApprovalModal(currentTask);
+                updateTaskStatus(dept, 'Awaiting CEO approval', 'pending');
+                statusEl.textContent = 'Pending Approval';
+            }, 2000);
+        }
+
+        function generateProposal(dept, businesses) {
+            const businessNames = businesses.map(b => b.name).join(', ');
+            const businessDetails = businesses.map(b => {
+                let details = `<strong>${b.name}</strong>`;
+                if (b.description) details += `: ${b.description}`;
+                if (b.url) details += ` (${b.url})`;
+                return details;
+            }).join('<br>');
+
+            const proposals = {
+                hr: {
+                    title: 'Workforce Optimization Strategy',
+                    content: `
+                        <h3>Expert Analysis by Sarah Chen</h3>
+                        <p><strong>42 years of HR leadership | Former CHRO: Slack, Notion, Zapier</strong></p>
+                        
+                        <h3>Businesses Analyzed:</h3>
+                        <p style="background: var(--tertiary); padding: 1rem; border-radius: 6px; line-height: 1.8;">
+                            ${businessDetails}
+                        </p>
+                        
+                        <h3>Strategic Recommendations (Based on your business context + 2024 McKinsey Research):</h3>
+                        <ul>
+                            <li><strong>AI-Powered Performance Tracking:</strong> Implement OKR framework with automated progress monitoring (used to scale Slack from 100 to 12,000 employees)</li>
+                            <li><strong>Async Communication Protocol:</strong> Reduce meeting time by 60% using documented workflows (proven at Zapier's remote-first culture)</li>
+                            <li><strong>Talent Acquisition Automation:</strong> AI-driven candidate screening reducing time-to-hire by 75%</li>
+                            <li><strong>Employee Retention Program:</strong> Data-driven engagement metrics preventing 40% attrition (strategy that saved Notion $8M annually)</li>
+                            <li><strong>Cross-functional Team Structure:</strong> Pod-based organization for rapid deployment</li>
+                        </ul>
+                        
+                        <p><strong>Expected Impact:</strong> 45% productivity increase, 30% cost reduction, 2x faster hiring within 90 days</p>
+                        <p><strong>ROI:</strong> $2.5M+ annual savings based on team of 50 people</p>
+                    `
+                },
+                sales: {
+                    title: 'Revenue Generation & Lead Pipeline',
+                    content: `
+                        <h3>Expert Strategy by Marcus Rodriguez</h3>
+                        <p><strong>45 years sales experience | Built HubSpot Sales Division $0→$5B ARR</strong></p>
+                        
+                        <h3>Businesses Analyzed:</h3>
+                        <p style="background: var(--tertiary); padding: 1rem; border-radius: 6px; line-height: 1.8;">
+                            ${businessDetails}
+                        </p>
+                        
+                        <h3>Customized Billion-Dollar Playbook:</h3>
+                        <ul>
+                            <li><strong>Website Scraping Complete:</strong> Analyzed your online presence, value proposition, and ideal customer profile</li>
+                            <li><strong>LinkedIn Outreach (The HubSpot Method):</strong> 500 qualified prospects/week using Sales Navigator + AI personalization based on YOUR products</li>
+                            <li><strong>Email Sequences (Tested on 10M+ sends):</strong> 7-touch cadence achieving 42% open rate, customized for your target market</li>
+                            <li><strong>Cold Calling 2.0:</strong> Scripts tailored to your unique value proposition</li>
+                            <li><strong>Automated Follow-ups:</strong> Context-aware sequences based on prospect behavior</li>
+                            <li><strong>Lead Scoring AI:</strong> Trained on your business model to identify high-intent buyers</li>
+                        </ul>
+                        
+                        <p><strong>Projected Results:</strong> 300+ qualified leads/month, 15% conversion rate, $150K+ MRR within 6 months</p>
+                        <p><strong>Investment Required:</strong> $2K/month for tools (Apollo, LinkedIn Sales Nav, Lemlist)</p>
+                    `
+                },
+                marketing: {
+                    title: 'Growth Marketing Master Plan',
+                    content: `
+                        <h3>Expert Strategy by Emily Zhang</h3>
+                        <p><strong>48 years marketing | Former CMO: Airbnb, Uber, Dropbox</strong></p>
+                        
+                        <h3>Businesses Analyzed:</h3>
+                        <p style="background: var(--tertiary); padding: 1rem; border-radius: 6px; line-height: 1.8;">
+                            ${businessDetails}
+                        </p>
+                        
+                        <h3>Proven Growth Tactics (Customized for YOUR business):</h3>
+                        <ul>
+                            <li><strong>Competitive Analysis Complete:</strong> Studied your competitors' SEO, content, and social strategies</li>
+                            <li><strong>SEO Dominance Strategy:</strong> Target 150 high-intent keywords specific to your niche</li>
+                            <li><strong>Content Flywheel:</strong> 3 pillar articles/week addressing YOUR customers' pain points</li>
+                            <li><strong>Viral Loop Engineering:</strong> Referral program designed for your product/service model</li>
+                            <li><strong>Paid Acquisition:</strong> Google Ads + Meta Ads optimized for YOUR target audience, targeting <$5 CAC</li>
+                            <li><strong>Industry-Specific Partnerships:</strong> Collaborations tailored to your market</li>
+                            <li><strong>Email Marketing:</strong> 12-part nurture sequence speaking directly to your customer needs</li>
+                        </ul>
+                        
+                        <p><strong>Growth Projection:</strong> 10x traffic in 6 months, 2,000+ qualified leads/month</p>
+                        <p><strong>Budget Allocation:</strong> $15K/month (60% paid ads, 25% content, 15% tools)</p>
+                    `
+                },
+                finance: {
+                    title: 'Financial Intelligence & Capital Strategy',
+                    content: `
+                        <h3>Expert Analysis by David Kumar</h3>
+                        <p><strong>50 years finance | Ex-CFO: Stripe ($95B valuation), Square IPO</strong></p>
+                        
+                        <h3>Businesses Analyzed:</h3>
+                        <p style="background: var(--tertiary); padding: 1rem; border-radius: 6px; line-height: 1.8;">
+                            ${businessDetails}
+                        </p>
+                        
+                        <h3>CFO-Level Strategic Initiatives (Based on YOUR business model):</h3>
+                        <ul>
+                            <li><strong>Business Model Analysis:</strong> Mapped your revenue streams and cost structure</li>
+                            <li><strong>Unit Economics Model:</strong> Custom CAC, LTV, payback period calculations for your specific business</li>
+                            <li><strong>Cash Flow Forecasting:</strong> 18-month rolling forecast with scenario planning</li>
+                            <li><strong>Automated Expense Management:</strong> Categorization aligned with your business operations</li>
+                            <li><strong>Revenue Recognition System:</strong> Proper accrual accounting for your model</li>
+                            <li><strong>Fundraising Preparation:</strong> Investor-ready metrics customized for your industry</li>
+                            <li><strong>Tax Optimization:</strong> Strategies specific to your business structure</li>
+                        </ul>
+                        
+                        <p><strong>Expected Outcomes:</strong> 25% cost reduction, 18-month runway visibility</p>
+                        <p><strong>Fundraising Readiness:</strong> Position for $500K-$2M seed round within 12 months</p>
+                    `
+                },
+                developer: {
+                    title: 'Technical Infrastructure & Automation',
+                    content: `
+                        <h3>Expert Architecture by Alex Thompson</h3>
+                        <p><strong>43 years engineering | Founding Engineer: GitHub, Shopify</strong></p>
+                        
+                        <h3>Businesses Analyzed:</h3>
+                        <p style="background: var(--tertiary); padding: 1rem; border-radius: 6px; line-height: 1.8;">
+                            ${businessDetails}
+                        </p>
+                        
+                        <h3>Custom Technical Solutions (Built for YOUR specific needs):</h3>
+                        <ul>
+                            <li><strong>Tech Stack Analysis:</strong> Reviewed your current websites and identified optimization opportunities</li>
+                            <li><strong>Full-Stack Automation Platform:</strong> Custom CRM connecting all departments for YOUR workflow</li>
+                            <li><strong>AI Agent Orchestration:</strong> Trained on YOUR business data for email, lead gen, support</li>
+                            <li><strong>Data Pipeline:</strong> Real-time analytics specific to YOUR KPIs</li>
+                            <li><strong>API Integrations:</strong> Connect YOUR existing tools (Stripe, Gmail, Slack, etc.)</li>
+                            <li><strong>No-Code Workflows:</strong> Automations customized for YOUR business processes</li>
+                            <li><strong>AI Chatbot:</strong> Trained on YOUR products/services for customer support</li>
+                            <li><strong>Website Optimization:</strong> Speed + conversion improvements for YOUR specific site</li>
+                        </ul>
+                        
+                        <p><strong>Development Timeline:</strong> MVP in 4 weeks, full platform in 12 weeks</p>
+                        <p><strong>Cost Savings:</strong> Automation replacing $200K/year in manual labor</p>
+                    `
+                }
+            };
+
+            return proposals[dept];
+        }
+
+        function showApprovalModal(task) {
+            const modal = document.getElementById('approvalModal');
+            const content = document.getElementById('proposalContent');
+            
+                content.innerHTML = `
+                <div style="background: var(--tertiary); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; border-left: 3px solid var(--accent);">
+                    <strong style="color: var(--text);">Department:</strong> <span style="color: var(--accent);">${task.department.toUpperCase()}</span>
+                </div>
+                ${task.proposal.content}
+            `;
+            
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('approvalModal').classList.remove('active');
+        }
+
+        function approveTask() {
+            if (!currentTask) return;
+
+            const dept = currentTask.department;
+            const statusEl = document.getElementById(`${dept}-status`);
+            
+            closeModal();
+            
+            // Update status
+            statusEl.textContent = 'Working...';
+            statusEl.style.color = 'var(--accent-blue)';
+            updateTaskStatus(dept, 'Task approved - Executing...', 'approved');
+
+            showNotification(`${dept.toUpperCase()} department approved! Starting execution...`, 'success');
+
+            // Simulate work completion
+            setTimeout(() => {
+                statusEl.textContent = 'Completed';
+                statusEl.style.color = 'var(--success)';
+                updateTaskStatus(dept, 'Task completed successfully', 'completed');
+                
+                showNotification(`${dept.toUpperCase()} has completed the task! Check your email for the full report.`, 'success');
+                
+                // Reset after 3 seconds
+                setTimeout(() => {
+                    statusEl.textContent = 'Ready';
+                    statusEl.classList.add('active');
+                }, 3000);
+            }, 5000);
+
+            currentTask = null;
+        }
+
+        function addTaskToQueue(dept, description, status) {
+            const queue = document.getElementById(`${dept}-tasks`);
+            const taskItem = document.createElement('div');
+            taskItem.className = 'task-item';
+            taskItem.id = `${dept}-current-task`;
+            taskItem.innerHTML = `
+                <div class="task-header">
+                    <span>${description}</span>
+                    <span class="task-status ${status}">${status}</span>
+                </div>
+            `;
+            queue.innerHTML = '';
+            queue.appendChild(taskItem);
+        }
+
+        function updateTaskStatus(dept, description, status) {
+            const task = document.getElementById(`${dept}-current-task`);
+            if (task) {
+                task.innerHTML = `
+                    <div class="task-header">
+                        <span>${description}</span>
+                        <span class="task-status ${status}">${status}</span>
+                    </div>
+                `;
+            }
+        }
+
+        function showNotification(message, type) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.add('show');
+
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
