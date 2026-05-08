@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Virtual Company - AI Business Automation</title>
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -550,8 +551,9 @@
             padding: 1rem 1.5rem;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
             z-index: 2000;
-            transform: translateX(400px);
+            transform: translateX(500px);
             transition: transform 0.3s ease;
+            min-width: 350px;
         }
 
         .notification.show {
@@ -782,7 +784,7 @@
         // Business card selection
         document.querySelectorAll('.business-card').forEach(card => {
             card.addEventListener('click', function(e) {
-                if (e.target.tagName !== 'INPUT') {
+                if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
                     document.querySelectorAll('.business-card').forEach(c => c.classList.remove('active'));
                     this.classList.add('active');
                 }
@@ -803,7 +805,7 @@
             const business3Url = document.getElementById('business3-url').value;
 
             if (!business1 && !business2 && !business3) {
-                showNotification('Please enter at least one business name', 'warning');
+                showNotification('Please enter at least one business name');
                 return;
             }
 
@@ -817,7 +819,7 @@
             };
 
             systemInitialized = true;
-            showNotification('System initialized! Experts are analyzing your businesses...', 'success');
+            showNotification('System initialized! Experts are analyzing your businesses...');
             
             // Update all status indicators
             ['hr', 'sales', 'marketing', 'finance', 'developer'].forEach(dept => {
@@ -828,18 +830,18 @@
 
             // Simulate learning process
             setTimeout(() => {
-                showNotification('Website analysis complete! All departments have learned about your businesses.', 'success');
+                showNotification('Website analysis complete! All departments ready.');
             }, 3000);
         }
 
         async function runDepartment(dept) {
             if (!systemInitialized) {
-                showNotification('Please initialize the system first', 'warning');
+                showNotification('Please initialize the system first');
                 return;
             }
 
             if (!window.businessData || window.businessData.businesses.length === 0) {
-                showNotification('Please enter business information first', 'warning');
+                showNotification('Please enter business information first');
                 return;
             }
 
@@ -853,7 +855,7 @@
             // Add task to queue
             addTaskToQueue(dept, 'AI analyzing your business data...', 'pending');
 
-            // Simulate department work (replace with actual API call)
+            // Simulate department work
             setTimeout(() => {
                 currentTask = {
                     department: dept,
@@ -881,128 +883,115 @@
                     title: 'Workforce Optimization Strategy',
                     content: `
                         <h3>Expert Analysis by Sarah Chen</h3>
-                        <p><strong>42 years of HR leadership | Former CHRO: Slack, Notion, Zapier</strong></p>
+                        <p><strong>42 years | Former CHRO: Slack, Notion, Zapier</strong></p>
                         
                         <h3>Businesses Analyzed:</h3>
                         <p style="background: var(--tertiary); padding: 1rem; border-radius: 6px; line-height: 1.8;">
                             ${businessDetails}
                         </p>
                         
-                        <h3>Strategic Recommendations (Based on your business context + 2024 McKinsey Research):</h3>
+                        <h3>Strategic Recommendations:</h3>
                         <ul>
-                            <li><strong>AI-Powered Performance Tracking:</strong> Implement OKR framework with automated progress monitoring (used to scale Slack from 100 to 12,000 employees)</li>
-                            <li><strong>Async Communication Protocol:</strong> Reduce meeting time by 60% using documented workflows (proven at Zapier's remote-first culture)</li>
-                            <li><strong>Talent Acquisition Automation:</strong> AI-driven candidate screening reducing time-to-hire by 75%</li>
-                            <li><strong>Employee Retention Program:</strong> Data-driven engagement metrics preventing 40% attrition (strategy that saved Notion $8M annually)</li>
-                            <li><strong>Cross-functional Team Structure:</strong> Pod-based organization for rapid deployment</li>
+                            <li><strong>AI-Powered Performance Tracking:</strong> OKR framework with automated monitoring</li>
+                            <li><strong>Async Communication:</strong> 60% reduction in meeting time using documented workflows</li>
+                            <li><strong>Talent Acquisition Automation:</strong> AI-driven screening, 75% faster hiring</li>
+                            <li><strong>Employee Retention:</strong> Data-driven engagement preventing 40% attrition</li>
+                            <li><strong>Team Structure:</strong> Pod-based organization for rapid deployment</li>
                         </ul>
                         
-                        <p><strong>Expected Impact:</strong> 45% productivity increase, 30% cost reduction, 2x faster hiring within 90 days</p>
-                        <p><strong>ROI:</strong> $2.5M+ annual savings based on team of 50 people</p>
+                        <p><strong>Expected Impact:</strong> 45% productivity increase, 30% cost reduction within 90 days</p>
                     `
                 },
                 sales: {
                     title: 'Revenue Generation & Lead Pipeline',
                     content: `
                         <h3>Expert Strategy by Marcus Rodriguez</h3>
-                        <p><strong>45 years sales experience | Built HubSpot Sales Division $0→$5B ARR</strong></p>
+                        <p><strong>45 years | Built HubSpot $0→$5B ARR</strong></p>
                         
                         <h3>Businesses Analyzed:</h3>
                         <p style="background: var(--tertiary); padding: 1rem; border-radius: 6px; line-height: 1.8;">
                             ${businessDetails}
                         </p>
                         
-                        <h3>Customized Billion-Dollar Playbook:</h3>
+                        <h3>Billion-Dollar Playbook:</h3>
                         <ul>
-                            <li><strong>Website Scraping Complete:</strong> Analyzed your online presence, value proposition, and ideal customer profile</li>
-                            <li><strong>LinkedIn Outreach (The HubSpot Method):</strong> 500 qualified prospects/week using Sales Navigator + AI personalization based on YOUR products</li>
-                            <li><strong>Email Sequences (Tested on 10M+ sends):</strong> 7-touch cadence achieving 42% open rate, customized for your target market</li>
-                            <li><strong>Cold Calling 2.0:</strong> Scripts tailored to your unique value proposition</li>
-                            <li><strong>Automated Follow-ups:</strong> Context-aware sequences based on prospect behavior</li>
-                            <li><strong>Lead Scoring AI:</strong> Trained on your business model to identify high-intent buyers</li>
+                            <li><strong>Website Analysis Complete:</strong> Your value proposition & ideal customer mapped</li>
+                            <li><strong>LinkedIn Outreach:</strong> 500 qualified prospects/week with AI personalization</li>
+                            <li><strong>Email Sequences:</strong> 7-touch cadence, 42% open rate, 18% reply rate</li>
+                            <li><strong>Cold Calling 2.0:</strong> Scripts tailored to YOUR unique value proposition</li>
+                            <li><strong>Automated Follow-ups:</strong> Context-aware sequences based on behavior</li>
                         </ul>
                         
-                        <p><strong>Projected Results:</strong> 300+ qualified leads/month, 15% conversion rate, $150K+ MRR within 6 months</p>
-                        <p><strong>Investment Required:</strong> $2K/month for tools (Apollo, LinkedIn Sales Nav, Lemlist)</p>
+                        <p><strong>Projected Results:</strong> 300+ qualified leads/month, $150K+ MRR within 6 months</p>
                     `
                 },
                 marketing: {
                     title: 'Growth Marketing Master Plan',
                     content: `
                         <h3>Expert Strategy by Emily Zhang</h3>
-                        <p><strong>48 years marketing | Former CMO: Airbnb, Uber, Dropbox</strong></p>
+                        <p><strong>48 years | Former CMO: Airbnb, Uber, Dropbox</strong></p>
                         
                         <h3>Businesses Analyzed:</h3>
                         <p style="background: var(--tertiary); padding: 1rem; border-radius: 6px; line-height: 1.8;">
                             ${businessDetails}
                         </p>
                         
-                        <h3>Proven Growth Tactics (Customized for YOUR business):</h3>
+                        <h3>Proven Growth Tactics:</h3>
                         <ul>
-                            <li><strong>Competitive Analysis Complete:</strong> Studied your competitors' SEO, content, and social strategies</li>
-                            <li><strong>SEO Dominance Strategy:</strong> Target 150 high-intent keywords specific to your niche</li>
-                            <li><strong>Content Flywheel:</strong> 3 pillar articles/week addressing YOUR customers' pain points</li>
-                            <li><strong>Viral Loop Engineering:</strong> Referral program designed for your product/service model</li>
-                            <li><strong>Paid Acquisition:</strong> Google Ads + Meta Ads optimized for YOUR target audience, targeting <$5 CAC</li>
-                            <li><strong>Industry-Specific Partnerships:</strong> Collaborations tailored to your market</li>
-                            <li><strong>Email Marketing:</strong> 12-part nurture sequence speaking directly to your customer needs</li>
+                            <li><strong>Competitive Analysis:</strong> Your competitors' SEO & content strategies mapped</li>
+                            <li><strong>SEO Dominance:</strong> 150 high-intent keywords specific to your niche</li>
+                            <li><strong>Content Flywheel:</strong> 3 pillar articles/week addressing customer pain points</li>
+                            <li><strong>Viral Loop:</strong> Referral program designed for your product model</li>
+                            <li><strong>Paid Acquisition:</strong> Google + Meta Ads optimized for <$5 CAC</li>
                         </ul>
                         
-                        <p><strong>Growth Projection:</strong> 10x traffic in 6 months, 2,000+ qualified leads/month</p>
-                        <p><strong>Budget Allocation:</strong> $15K/month (60% paid ads, 25% content, 15% tools)</p>
+                        <p><strong>Growth Projection:</strong> 10x traffic in 6 months, 2,000+ leads/month</p>
                     `
                 },
                 finance: {
                     title: 'Financial Intelligence & Capital Strategy',
                     content: `
                         <h3>Expert Analysis by David Kumar</h3>
-                        <p><strong>50 years finance | Ex-CFO: Stripe ($95B valuation), Square IPO</strong></p>
+                        <p><strong>50 years | Ex-CFO: Stripe, Square IPO</strong></p>
                         
                         <h3>Businesses Analyzed:</h3>
                         <p style="background: var(--tertiary); padding: 1rem; border-radius: 6px; line-height: 1.8;">
                             ${businessDetails}
                         </p>
                         
-                        <h3>CFO-Level Strategic Initiatives (Based on YOUR business model):</h3>
+                        <h3>CFO-Level Initiatives:</h3>
                         <ul>
-                            <li><strong>Business Model Analysis:</strong> Mapped your revenue streams and cost structure</li>
-                            <li><strong>Unit Economics Model:</strong> Custom CAC, LTV, payback period calculations for your specific business</li>
-                            <li><strong>Cash Flow Forecasting:</strong> 18-month rolling forecast with scenario planning</li>
-                            <li><strong>Automated Expense Management:</strong> Categorization aligned with your business operations</li>
-                            <li><strong>Revenue Recognition System:</strong> Proper accrual accounting for your model</li>
-                            <li><strong>Fundraising Preparation:</strong> Investor-ready metrics customized for your industry</li>
-                            <li><strong>Tax Optimization:</strong> Strategies specific to your business structure</li>
+                            <li><strong>Business Model Analysis:</strong> Revenue streams & cost structure mapped</li>
+                            <li><strong>Unit Economics:</strong> Custom CAC, LTV, payback calculations</li>
+                            <li><strong>Cash Flow Forecasting:</strong> 18-month rolling forecast with scenarios</li>
+                            <li><strong>Expense Management:</strong> Automated categorization & budget alerts</li>
+                            <li><strong>Fundraising Prep:</strong> Investor-ready metrics for your industry</li>
                         </ul>
                         
                         <p><strong>Expected Outcomes:</strong> 25% cost reduction, 18-month runway visibility</p>
-                        <p><strong>Fundraising Readiness:</strong> Position for $500K-$2M seed round within 12 months</p>
                     `
                 },
                 developer: {
                     title: 'Technical Infrastructure & Automation',
                     content: `
                         <h3>Expert Architecture by Alex Thompson</h3>
-                        <p><strong>43 years engineering | Founding Engineer: GitHub, Shopify</strong></p>
+                        <p><strong>43 years | Founding Engineer: GitHub, Shopify</strong></p>
                         
                         <h3>Businesses Analyzed:</h3>
                         <p style="background: var(--tertiary); padding: 1rem; border-radius: 6px; line-height: 1.8;">
                             ${businessDetails}
                         </p>
                         
-                        <h3>Custom Technical Solutions (Built for YOUR specific needs):</h3>
+                        <h3>Custom Technical Solutions:</h3>
                         <ul>
-                            <li><strong>Tech Stack Analysis:</strong> Reviewed your current websites and identified optimization opportunities</li>
-                            <li><strong>Full-Stack Automation Platform:</strong> Custom CRM connecting all departments for YOUR workflow</li>
-                            <li><strong>AI Agent Orchestration:</strong> Trained on YOUR business data for email, lead gen, support</li>
-                            <li><strong>Data Pipeline:</strong> Real-time analytics specific to YOUR KPIs</li>
-                            <li><strong>API Integrations:</strong> Connect YOUR existing tools (Stripe, Gmail, Slack, etc.)</li>
-                            <li><strong>No-Code Workflows:</strong> Automations customized for YOUR business processes</li>
-                            <li><strong>AI Chatbot:</strong> Trained on YOUR products/services for customer support</li>
-                            <li><strong>Website Optimization:</strong> Speed + conversion improvements for YOUR specific site</li>
+                            <li><strong>Tech Stack Analysis:</strong> Current websites reviewed, optimizations identified</li>
+                            <li><strong>Full-Stack Platform:</strong> Custom CRM connecting all departments</li>
+                            <li><strong>AI Agent Orchestration:</strong> Trained on YOUR data for automation</li>
+                            <li><strong>Data Pipeline:</strong> Real-time analytics for YOUR KPIs</li>
+                            <li><strong>API Integrations:</strong> Connect YOUR tools (Stripe, Gmail, Slack)</li>
                         </ul>
                         
-                        <p><strong>Development Timeline:</strong> MVP in 4 weeks, full platform in 12 weeks</p>
-                        <p><strong>Cost Savings:</strong> Automation replacing $200K/year in manual labor</p>
+                        <p><strong>Timeline:</strong> MVP in 4 weeks, full platform in 12 weeks</p>
                     `
                 }
             };
@@ -1014,7 +1003,7 @@
             const modal = document.getElementById('approvalModal');
             const content = document.getElementById('proposalContent');
             
-                content.innerHTML = `
+            content.innerHTML = `
                 <div style="background: var(--tertiary); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; border-left: 3px solid var(--accent);">
                     <strong style="color: var(--text);">Department:</strong> <span style="color: var(--accent);">${task.department.toUpperCase()}</span>
                 </div>
@@ -1036,22 +1025,19 @@
             
             closeModal();
             
-            // Update status
             statusEl.textContent = 'Working...';
-            statusEl.style.color = 'var(--accent-blue)';
+            statusEl.style.color = 'var(--accent)';
             updateTaskStatus(dept, 'Task approved - Executing...', 'approved');
 
-            showNotification(`${dept.toUpperCase()} department approved! Starting execution...`, 'success');
+            showNotification(`${dept.toUpperCase()} approved! Starting execution...`);
 
-            // Simulate work completion
             setTimeout(() => {
                 statusEl.textContent = 'Completed';
                 statusEl.style.color = 'var(--success)';
                 updateTaskStatus(dept, 'Task completed successfully', 'completed');
                 
-                showNotification(`${dept.toUpperCase()} has completed the task! Check your email for the full report.`, 'success');
+                showDownloadReport(dept, currentTask);
                 
-                // Reset after 3 seconds
                 setTimeout(() => {
                     statusEl.textContent = 'Ready';
                     statusEl.classList.add('active');
@@ -1059,6 +1045,61 @@
             }, 5000);
 
             currentTask = null;
+        }
+
+        function showDownloadReport(dept, task) {
+            const notification = document.getElementById('notification');
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 1rem; justify-content: space-between;">
+                    <span>Report completed!</span>
+                    <button onclick='downloadReport(${JSON.stringify(dept)}, ${JSON.stringify(task)})' 
+                            style="background: var(--accent); color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-weight: 600; white-space: nowrap;">
+                        Download PDF
+                    </button>
+                </div>
+            `;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 10000);
+        }
+
+        function downloadReport(dept, task) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            const businessNames = task.businesses.map(b => b.name).join(', ');
+            const date = new Date().toLocaleDateString();
+            
+            doc.setFontSize(20);
+            doc.setFont(undefined, 'bold');
+            doc.text(`${dept.toUpperCase()} DEPARTMENT REPORT`, 20, 20);
+            
+            doc.setFontSize(10);
+            doc.setFont(undefined, 'normal');
+            doc.text(`Date: ${date}`, 20, 30);
+            doc.text(`Businesses: ${businessNames}`, 20, 36);
+            
+            doc.setFontSize(14);
+            doc.setFont(undefined, 'bold');
+            doc.text(task.proposal.title, 20, 50);
+            
+            doc.setFontSize(10);
+            doc.setFont(undefined, 'normal');
+            
+            const content = task.proposal.content
+                .replace(/<[^>]*>/g, '\n')
+                .replace(/&nbsp;/g, ' ')
+                .replace(/\n\n+/g, '\n\n')
+                .trim();
+            
+            const splitText = doc.splitTextToSize(content, 170);
+            doc.text(splitText, 20, 60);
+            
+            doc.save(`${dept}-report-${date}.pdf`);
+            
+            showNotification('Report downloaded successfully!');
         }
 
         function addTaskToQueue(dept, description, status) {
@@ -1088,9 +1129,9 @@
             }
         }
 
-        function showNotification(message, type) {
+        function showNotification(message) {
             const notification = document.getElementById('notification');
-            notification.textContent = message;
+            notification.innerHTML = message;
             notification.classList.add('show');
 
             setTimeout(() => {
